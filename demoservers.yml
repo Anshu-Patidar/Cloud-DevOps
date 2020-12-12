@@ -7,6 +7,14 @@ Parameters:
     Type: String
 
 Resources:
+  VPC: 
+    Type: AWS::EC2::VPC
+    Properties: 
+        CidrBlock: !Ref VpcCIDR
+        Tags: 
+            - Key: Name
+              Value: !Ref EnvironmentName
+
   LBSecGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -45,3 +53,10 @@ Resources:
         FromPort: 0
         ToPort: 65535
         CidrIp: 0.0.0.0/0
+
+Outputs:
+    VPC: 
+        Description: A reference to the created vpc
+        Value: !Ref VPC
+        Export:
+            Name: !Sub ${EnvironmentName}-VPCID
